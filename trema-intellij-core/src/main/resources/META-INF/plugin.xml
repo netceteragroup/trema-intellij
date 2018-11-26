@@ -1,0 +1,95 @@
+<idea-plugin>
+    <id>com.netcetera.trema.trema-intellij</id>
+    <name>Trema</name>
+    <version>1.0.0</version>
+    <vendor email="dejan.mladenovski@netcetera.com" url="http://netcetera.com">Netcetera</vendor>
+
+    <description><![CDATA[
+    Trema is an IntelliJ plugin that allows you to manage your text resources and translations. It allows you to keep all
+    text resources and translations in a single place but still giving you the possibility to let those translations be
+    composed by other people without access or knowledge of development environments.
+
+    You can store all your Text resources that you use within your application in a single database (*.trm xml file).
+    From this unified text resource database you can export the text resources that remain to be translated as Excel or
+    CSV File to the people that do the translations. They can do the translations of the text resources in Excel and
+    send you back the file, which can then be merged with your existing text resource database.
+
+    Together with trema-maven you can also generate your java properties files to be used within your application from
+    the text resource database.
+
+    ]]></description>
+
+    <change-notes><![CDATA[
+    ]]>
+    </change-notes>
+
+    <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="162" />
+
+    <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+
+    <application-components>
+    </application-components>
+
+    <project-components>
+    </project-components>
+
+    <actions>
+        <!--Project view context menu items-->
+        <group id="Trema" class="com.netcetera.trema.intellij.plugin.actions.TremaActionGroup" text="Trema" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first" />
+        </group>
+
+        <!--Editor context menu items-->
+        <group id="TremaEditor" class="com.netcetera.trema.intellij.plugin.actions.TremaActionGroup" text="Trema" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="first" />
+        </group>
+
+        <!--Group difficult to find, left here for future use-->
+        <!--<group id="TremaMainMenuGroup" class="com.netcetera.trema.intellij.plugin.actions.TremaActionGroup" text="Trema" popup="false">-->
+            <!--<add-to-group group-id="MainMenu" relative-to-action="HelpMenu" anchor="before" />-->
+        <!--</group>-->
+
+        <group id="TremaNewContextGroup" popup="false">
+            <add-to-group group-id="NewGroup" anchor="last" />
+            <separator />
+        </group>
+
+        <!--Import action-->
+        <action class="com.netcetera.trema.intellij.plugin.actions.ImportXlsAction"
+                id="ImportXls"
+                text="Import from CSV/XLS file"
+                description="Import translations from Excel worksheet">
+            <add-to-group group-id="Trema" anchor="last" />
+            <add-to-group group-id="TremaEditor" anchor="last" />
+        </action>
+
+        <!--Export action-->
+        <action class="com.netcetera.trema.intellij.plugin.actions.ExportXlsAction"
+                id="ExportXls"
+                text="Export to XLS"
+                description="Export to Excel worksheet">
+            <add-to-group group-id="Trema" relative-to-action="ExportXls" anchor="after" />
+            <add-to-group group-id="TremaEditor" relative-to-action="ExportXls" anchor="after" />
+        </action>
+
+        <!--Create new Trema database action-->
+        <action class="com.netcetera.trema.intellij.plugin.actions.CreateTremaDbAction"
+                id="CreateTremaDb"
+                text="Trema XML database"
+                description="Create new Trema XML database" icon="/icons/trema.gif">
+            <add-to-group group-id="TremaNewContextGroup" anchor="last" />
+        </action>
+
+    </actions>
+
+</idea-plugin>
