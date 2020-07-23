@@ -22,7 +22,6 @@ import com.netcetera.trema.intellij.plugin.models.LanguageAndFileName;
 import com.netcetera.trema.intellij.plugin.models.TremaExportModel;
 import com.netcetera.trema.intellij.plugin.models.TremaFile;
 import com.netcetera.trema.intellij.plugin.models.TremaImportModel;
-import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,14 +34,16 @@ import java.io.Writer;
 /**
  * Utility for performing import/export operations.
  */
-@UtilityClass
-@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public final class TremaUtil {
 
+  private TremaUtil() {
+  }
+
   /**
-   * Generate the XML database for the input content.
-   * @param input {@link String} content of the source file.
-   * @return {@link IDatabase} returns {@link XMLDatabase} the XMLDatabase object from the source.
+   * Generates the XML database for the input content.
+   *
+   * @param input the contents of the source file
+   * @return the XMLDatabase object from the source
    * @throws IOException thrown if there is a problem reading the contents.
    * @throws ParseException thrown if there is a problem while parsing the source file contents.
    */
@@ -62,8 +63,9 @@ public final class TremaUtil {
 
   /**
    * Performs exporting to XLS file.
-   * @param model {@link TremaExportModel} model containing export information
-   * @param db {@link IDatabase} contains the data to be exported.
+   *
+   * @param model model containing export information
+   * @param db the database to export to
    * @throws IOException thrown if there is a problem writing the contents.
    * @throws ExportException thrown if there is a problem while exporting the source file contents.
    */
@@ -73,7 +75,7 @@ public final class TremaUtil {
       Thread.currentThread().setContextClassLoader(TremaUtil.class.getClassLoader());
       File output;
       XLSExporter exporter;
-      for (LanguageAndFileName langAndFileName: model.getLanguagesToExport()) {
+      for (LanguageAndFileName langAndFileName : model.getLanguagesToExport()) {
         output = new File(langAndFileName.getFileName());
         output.createNewFile();
         exporter = new XLSExporter(output);
@@ -89,8 +91,9 @@ public final class TremaUtil {
 
   /**
    * Performs exporting to CSV file.
-   * @param model {@link TremaExportModel} model containing export information
-   * @param db {@link IDatabase} contains the data to be exported.
+   *
+   * @param model model containing export information
+   * @param db the database to export to
    * @throws IOException thrown if there is a problem writing the contents.
    */
   public static void doCsvExport(TremaExportModel model, IDatabase db) throws IOException {
@@ -123,8 +126,9 @@ public final class TremaUtil {
 
   /**
    * Performs exporting to PROPERTIES file.
-   * @param model {@link TremaExportModel} model containing export information
-   * @param db {@link IDatabase} contains the data to be exported.
+   *
+   * @param model model containing export information
+   * @param db the database to export to
    * @throws ExportException thrown if there is a problem while exporting the source file contents.
    */
   public static void doPropertiesExport(TremaExportModel model, IDatabase db) throws ExportException {
@@ -133,7 +137,7 @@ public final class TremaUtil {
       Thread.currentThread().setContextClassLoader(TremaUtil.class.getClassLoader());
       PropertiesExporter exporter;
 
-      for (LanguageAndFileName langAndFileName: model.getLanguagesToExport()) {
+      for (LanguageAndFileName langAndFileName : model.getLanguagesToExport()) {
         exporter = new PropertiesExporter(new File(langAndFileName.getFileName()), new FileOutputStreamFactory());
         if (model.getPropertiesOptionsEscapeQuotes()) {
           exporter.setExportFilter(new IExportFilter[]{new MessageFormatEscapingFilter()});
@@ -152,9 +156,10 @@ public final class TremaUtil {
   /**
    * Performs importing from file. This is called after updating the db object with the imported changes to
    * write to the source file. After writing it refreshes the file contents in IntelliJ.
-   * @param model {@link TremaImportModel} model containing import information
-   * @param event {@link AnActionEvent} IntelliJ event object
-   * @param db {@link IDatabase} contains the data to be exported.
+   *
+   * @param db the database containing the data to export
+   * @param model model containing import information
+   * @param event the IntelliJ event object
    * @throws IOException thrown if there is a problem writing the contents.
    */
   public static void doImport(XMLDatabase db, AnActionEvent event, TremaImportModel model) throws IOException {
@@ -176,12 +181,13 @@ public final class TremaUtil {
 
   /**
    * Method to get the {@link IImportSource} import source from a path.
+   *
    * @param path the path of the source file
    * @param encoding the source encoding
    * @param separator the source separator
    * @return Returns {@link XLSFile} or {@link CSVFile} depending on the source.
    * @throws ParseException thrown when there is a problem parsing the source file
-   * @throws IOException thrown when there is a problem reading the soruce file
+   * @throws IOException thrown when there is a problem reading the source file
    */
   public static IImportSource getImportSource(String path, String encoding, char separator) throws ParseException,
       IOException {
