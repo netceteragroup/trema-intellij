@@ -1,13 +1,13 @@
 package com.netcetera.trema.intellij.plugin.helpers;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.netcetera.trema.intellij.plugin.models.TremaFile;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
-import lombok.experimental.UtilityClass;
 
 /**
  * ActionContextHelper sets the visibility of the context menu items depending on the file that is
@@ -24,7 +24,7 @@ public class ActionContextHelper {
    * @param supportedExtensions List<TremaFile> list that contain enum of supported extensions for Trema
    */
   public static void setVisibilityDependingOnContext(AnActionEvent event, List<TremaFile> supportedExtensions) {
-    VirtualFile file = event.getDataContext().getData(DataKeys.VIRTUAL_FILE);
+    VirtualFile file = event.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE);
     Presentation presentation = event.getPresentation();
 
     presentation.setVisible(isSupportedTremaFile(file, supportedExtensions));

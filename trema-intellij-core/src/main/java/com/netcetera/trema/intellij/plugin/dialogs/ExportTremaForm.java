@@ -1,7 +1,7 @@
 package com.netcetera.trema.intellij.plugin.dialogs;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -122,7 +122,7 @@ public class ExportTremaForm extends AbstractTremaForm<TremaExportModel> {
     csvExportOption.addChangeListener(typeChangedListener);
     exportDestinationBrowsePathButton.addActionListener(folderPickerListener);
     propertiesExportOption.addChangeListener(typeChangedListener);
-    VirtualFile exportFile = event.getDataContext().getData(DataKeys.VIRTUAL_FILE);
+    VirtualFile exportFile = event.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE);
 
     if (exportFile == null) {
       throw new ExportException("Cannot access the export source file.");

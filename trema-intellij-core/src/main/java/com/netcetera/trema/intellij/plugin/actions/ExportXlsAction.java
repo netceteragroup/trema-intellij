@@ -2,10 +2,9 @@ package com.netcetera.trema.intellij.plugin.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.netcetera.trema.core.ParseException;
-
 import com.netcetera.trema.core.api.IDatabase;
 import com.netcetera.trema.core.exporting.ExportException;
 import com.netcetera.trema.intellij.plugin.dialogs.ExportTremaForm;
@@ -14,8 +13,6 @@ import com.netcetera.trema.intellij.plugin.dialogs.TremaDialogWrapper;
 import com.netcetera.trema.intellij.plugin.dialogs.TremaExceptionDialogWrapper;
 import com.netcetera.trema.intellij.plugin.helpers.ActionContextHelper;
 import com.netcetera.trema.intellij.plugin.helpers.TremaUtil;
-
-
 import com.netcetera.trema.intellij.plugin.models.LanguageAndFileName;
 import com.netcetera.trema.intellij.plugin.models.TremaConflictExportFileModel;
 import com.netcetera.trema.intellij.plugin.models.TremaExportModel;
@@ -58,7 +55,7 @@ public class ExportXlsAction extends AnAction {
     }
 
     private void performExport(AnActionEvent event) throws IOException, ExportException, ParseException {
-      VirtualFile exportFile = event.getData(DataKeys.VIRTUAL_FILE);
+      VirtualFile exportFile = event.getData(CommonDataKeys.VIRTUAL_FILE);
       if (exportFile == null) {
         throw new ExportException("The source path does not exist or cannot access it.");
       }

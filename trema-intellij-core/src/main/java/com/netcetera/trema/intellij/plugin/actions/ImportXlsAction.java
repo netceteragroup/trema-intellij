@@ -2,7 +2,7 @@ package com.netcetera.trema.intellij.plugin.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.netcetera.trema.core.ParseException;
 import com.netcetera.trema.core.XMLDatabase;
@@ -54,7 +54,7 @@ public class ImportXlsAction extends AnAction {
 
   private void performImport(AnActionEvent event) throws IOException, ParseException {
 
-    VirtualFile importFile = event.getData(DataKeys.VIRTUAL_FILE);
+    VirtualFile importFile = event.getData(CommonDataKeys.VIRTUAL_FILE);
     if (importFile == null) {
       throw new IOException("Cannot access the import source or does not exist.");
     }

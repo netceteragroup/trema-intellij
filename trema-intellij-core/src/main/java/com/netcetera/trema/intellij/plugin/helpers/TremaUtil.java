@@ -1,7 +1,7 @@
 package com.netcetera.trema.intellij.plugin.helpers;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.netcetera.trema.core.ParseException;
 import com.netcetera.trema.core.Status;
@@ -22,6 +22,8 @@ import com.netcetera.trema.intellij.plugin.models.LanguageAndFileName;
 import com.netcetera.trema.intellij.plugin.models.TremaExportModel;
 import com.netcetera.trema.intellij.plugin.models.TremaFile;
 import com.netcetera.trema.intellij.plugin.models.TremaImportModel;
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import lombok.experimental.UtilityClass;
 
 /**
  * Utility for performing import/export operations.
@@ -160,7 +161,7 @@ public final class TremaUtil {
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(TremaUtil.class.getClassLoader());
-      VirtualFile importDestination = event.getData(DataKeys.VIRTUAL_FILE);
+      VirtualFile importDestination = event.getData(CommonDataKeys.VIRTUAL_FILE);
       if (importDestination == null) {
         throw new IOException("Cannot access the import destination.");
       }
