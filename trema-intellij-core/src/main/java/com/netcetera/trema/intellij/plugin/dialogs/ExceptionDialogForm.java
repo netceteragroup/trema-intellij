@@ -5,8 +5,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
-import java.awt.Font;
 import java.awt.event.ActionListener;
 
 /**
@@ -52,6 +50,7 @@ public class ExceptionDialogForm extends AbstractTremaForm {
   public JComponent $$$getRootComponent$$$() {
     return exceptionPanel;
   }
+
   private ActionListener toggleShowStackTraceListener = e -> {
     String buttonText = showMoreButton.getText();
 

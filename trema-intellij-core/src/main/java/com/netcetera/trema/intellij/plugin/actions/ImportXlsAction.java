@@ -9,7 +9,7 @@ import com.netcetera.trema.core.XMLDatabase;
 import com.netcetera.trema.core.api.IDatabase;
 import com.netcetera.trema.core.importing.Change;
 import com.netcetera.trema.core.importing.ChangesAnalyzer;
-import com.netcetera.trema.intellij.plugin.dialogs.ExceptionDialogForm;
+import com.netcetera.trema.intellij.plugin.dialogs.ImportSuccessDialog;
 import com.netcetera.trema.intellij.plugin.dialogs.ImportTremaForm;
 import com.netcetera.trema.intellij.plugin.dialogs.TremaDialogWrapper;
 import com.netcetera.trema.intellij.plugin.dialogs.TremaExceptionDialogWrapper;
@@ -19,8 +19,6 @@ import com.netcetera.trema.intellij.plugin.models.TremaFile;
 import com.netcetera.trema.intellij.plugin.models.TremaImportModel;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,12 +36,15 @@ public class ImportXlsAction extends AnAction {
     try {
       performImport(event);
     } catch (IOException e) {
+      e.printStackTrace();
       exceptionDialog = TremaExceptionDialogWrapper.createExceptionDialog(TremaExceptionDialogWrapper.IO_EXCEPTION,
           e, event);
     } catch (ParseException e) {
+      e.printStackTrace();
       exceptionDialog = TremaExceptionDialogWrapper.createExceptionDialog(TremaExceptionDialogWrapper.PARSE_EXCEPTION,
           e, event);
     } catch (Exception e) {
+      e.printStackTrace();
       exceptionDialog = TremaExceptionDialogWrapper.createExceptionDialog("Exception", e, event);
     } finally {
       if (exceptionDialog != null) {
@@ -97,23 +98,18 @@ public class ImportXlsAction extends AnAction {
       TremaUtil.doImport((XMLDatabase) db, event, model);
 
       // create import log
-      StringBuilder builder = new StringBuilder();
-      String importLog;
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss O yyyy");
-      builder.append(ZonedDateTime.now().format(formatter)).append("\nImport log: \n\n");
-      builder.append("Accepted conflicting changes (").append(appliedConflicting.size()).append("):\n");
-      builder.append(String.join("\n", appliedConflicting)).append("\n\n");
-      builder.append("Denied conflicting changes (").append(deniedConflicting.size()).append("):\n");
-      builder.append(String.join("\n", deniedConflicting)).append("\n\n");
-      builder.append("Accepted non-conflicting changes (").append(appliedNonConflicting.size()).append("):\n");
-      builder.append(String.join("\n", appliedNonConflicting)).append("\n\n");
-      builder.append("Denied non-conflicting changes (").append(deniedNonConflicting.size()).append("):\n");
-      builder.append(String.join("\n", deniedNonConflicting)).append("\n\n");
+      String importLog = "Accepted conflicting changes (" + appliedConflicting.size() + "):"
+        + formatAsList(appliedConflicting)
+        + "\n\nDenied conflicting changes (" + deniedConflicting.size() + "):"
+        + formatAsList(deniedConflicting)
+        + "\n\nAccepted non-conflicting changes (" + appliedNonConflicting.size() + "):"
+        + formatAsList(appliedNonConflicting)
+        + "\n\nDenied non-conflicting changes (" + deniedNonConflicting.size() + "):"
+        + formatAsList(deniedNonConflicting);
 
-      importLog = builder.toString();
-      TremaDialogWrapper logWrapper = new TremaDialogWrapper(event.getProject(),
-          new ExceptionDialogForm("ImportLog", "Import Log", "", importLog));
-      logWrapper.show();
+      TremaDialogWrapper wrapper = new TremaDialogWrapper(event.getProject(),
+        new ImportSuccessDialog("Import Log", importLog));
+      wrapper.show();
     }
   }
 
@@ -121,5 +117,12 @@ public class ImportXlsAction extends AnAction {
   public void update(AnActionEvent event) {
     super.update(event);
     ActionContextHelper.setVisibilityDependingOnContext(event, supportedExtensions);
+  }
+
+  private static String formatAsList(List<String> elements) {
+    if (elements.isEmpty()) {
+      return "";
+    }
+    return "\n - " + String.join("\n - ", elements);
   }
 }
