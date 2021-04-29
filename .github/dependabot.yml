@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: dependencies
+  ignore:
+  - dependency-name: org.jetbrains.intellij
+    versions:
+    - 0.7.0
+    - 0.7.1
+    - 0.7.2
+  - dependency-name: org.projectlombok:lombok
+    versions:
+    - 1.18.18
+  - dependency-name: org.apache.commons:commons-lang3
+    versions:
+    - "3.11"
+  - dependency-name: junit:junit
+    versions:
+    - 4.13.1
