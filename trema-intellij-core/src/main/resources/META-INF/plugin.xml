@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>com.netcetera.trema.trema-intellij</id>
     <name>Trema</name>
-    <version>1.0.0</version>
-    <vendor email="dejan.mladenovski@netcetera.com" url="http://netcetera.com">Netcetera</vendor>
+    <version>0.0.4</version>
+    <vendor email="dejan.mladenovski@netcetera.com" url="https://netcetera.com">Netcetera AG</vendor>
 
     <description><![CDATA[
     Trema is an IntelliJ plugin that allows you to manage your text resources and translations. It allows you to keep all
