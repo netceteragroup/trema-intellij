@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.13.2'
-    compile group: 'com.netcetera.trema', name: 'trema-core', version: '0.3.0'
+    compile group: 'com.netcetera.trema', name: 'trema-core', version: '0.4.0'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
 
